@@ -1,6 +1,5 @@
 const mineflayer = require('mineflayer')
-const pathfinder = require('mineflayer-pathfinder').pathfinder
-const Movements = require('mineflayer-pathfinder').Movements
+const Pathfinding = require('./function.js');
 
 
 const { follow, come } = require('./function.js')
@@ -13,42 +12,24 @@ var bot = mineflayer.createBot({
    
   });
 
+// load pathfinder plugin
 bot.loadPlugin(pathfinder)
 
+// Create an instance of Pathfinding
+const pathfindingInstance = new Pathfinding(bot);
+
 bot.once('spawn', () => {
-  const defaultMove = new Movements(bot)
   
   bot.on('chat', function(username, message) {
-
-    bot.skinData = {
-        url: 'assets/bot-skin.png',
-        model: 'slim' // or 'classic'
-      };
   
     if (username === bot.username) return
     
     const target = bot.players[username] ? bot.players[username].entity : null
     if (message === 'come') {
-        if (!target) {
-            bot.chat('I don\'t see you !')
-            return
-          }
-        come(bot, target, defaultMove);
+      pathfindingInstance.come(target)
     }
     
-    // if (message === 'follow') {
-    //     if (!target) {
-    //       bot.chat('I don\'t see you !')
-    //       return
-    //     }
-
-    //    come(bot, target);
-    //    come(bot, target);
-    //    come(bot, target);
-    //    come(bot, target);
-    
-      
-    //   } 
+ 
   })
 })
 
