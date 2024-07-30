@@ -12,9 +12,6 @@ var bot = mineflayer.createBot({
    
   });
 
-// load pathfinder plugin
-bot.loadPlugin(pathfinder)
-
 // Create an instance of Pathfinding
 const pathfindingInstance = new Pathfinding(bot);
 

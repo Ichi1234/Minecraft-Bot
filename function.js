@@ -1,44 +1,26 @@
-
-const pathfinder = require('mineflayer-pathfinder').pathfinder
-const Movements = require('mineflayer-pathfinder').Movements
-const { GoalNear } = require('mineflayer-pathfinder').goals
-
-// function follow(current_bot, who) {
-
-// }
+const pathfinder = require('mineflayer-pathfinder').pathfinder;
+const Movements = require('mineflayer-pathfinder').Movements;
+const { GoalNear } = require('mineflayer-pathfinder').goals;
 
 class Pathfinding {
-    constructor(target_bot) {
-        this.bot = target_bot;
-        this.defaultMove = new Movements(target_bot);
-    }
+  constructor(target_bot) {
+    this.bot = target_bot;
+    this.bot.loadPlugin(pathfinder);  // Load pathfinder plugin
+  }
 
-    come(target_user) {
-        
-        const pos = target_user.position;
-        if (!target) {
-            this.bot.chat('I don\'t see you !')
-            return
-          }
-
-        this.bot.pathfinder.setMovements(this.defaultMove)
-        this.bot.pathfinder.setGoal(new GoalNear(pos.x, pos.y, pos.z, 1))
+  come(target_user) {
+    if (!target_user) {
+      this.bot.chat('I don\'t see you!');
+      return;
     }
+    const pos = target_user.position;
+    const defaultMove = new Movements(this.bot);
+
+    this.bot.pathfinder.setMovements(defaultMove);
+    this.bot.pathfinder.setGoal(new GoalNear(pos.x, pos.y, pos.z, 1));
+  }
+
+  // Additional methods like follow can be added here
 }
 
-// function come(current_bot, who, default_move) {
-
-//     if (!who) {
-//         current_bot.chat('I don\'t see you !')
-//         return
-//       }
-//       const p = who.position
-
-//       current_bot.pathfinder.setMovements(default_move)
-//       current_bot.pathfinder.setGoal(new GoalNear(p.x, p.y, p.z, 1))
-// }
-
-module.exports = {
-    // follow,
-    Pathfinding,
-};
+module.exports = Pathfinding;
