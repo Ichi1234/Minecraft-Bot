@@ -13,10 +13,13 @@ var bot = mineflayer.createBot({
   });
 
 // Create an instance of Pathfinding
-const pathfindingInstance = new Pathfinding(bot);
+const mcData = require('minecraft-data')(bot.version)
+const pathfindingInstance = new Pathfinding(bot, mcData);
 
 bot.once('spawn', () => {
   
+  bot.chat("Hi ^-^")
+
   bot.on('chat', function(username, message) {
   
     if (username === bot.username) return
@@ -24,6 +27,11 @@ bot.once('spawn', () => {
     const target = bot.players[username] ? bot.players[username].entity : null
     if (message === 'come') {
       pathfindingInstance.come(target)
+    }
+
+    if (message === 'follow' || message === 'stop') {
+      bot.chat("Ok")
+      pathfindingInstance.follow(username, message)
     }
     
  
